@@ -16,5 +16,15 @@ public class CardParameters
 	public static CardColor cardColor;
 	public static CardRarity cardRarity;
 	
+	public CardParameters(String cName, String cDescription, int cCost, Object cType, CardSpecialEffects[] cSpecialEffects, Object cColor, Object cRarity)
+	{
+		this.cardName = cName;
+		this.cardDescription = cDescription;
+		this.cardCost = cCost;
+		this.cardType = (CardType) cType;
+		this.cardSpecialEffects = cSpecialEffects;
+		this.cardColor = (CardColor) cColor;
+		this.cardRarity = (CardRarity) cRarity;
+	}
 	
 }

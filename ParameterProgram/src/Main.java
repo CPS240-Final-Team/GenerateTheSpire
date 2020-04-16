@@ -5,10 +5,13 @@ import Enums.CardRarity;
 import Enums.CardSpecialEffects;
 import Enums.CardType;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -21,12 +24,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 //Last Worked on By: Hannah 
-//Date Last Worked On: 4/13/2020
-//Progress Last Made: Made progress on a basic UI 
+//Date Last Worked On: 4/15/2020
+//Progress Last Made: Finished basic info UI, created another scene to handle input for triggers, made empty trigger classes, made logic for the basic info UI
 //What Needs to be Done:
-//	- Trigger class creation/composition
-//	- Creating another scene to handle input for triggers (scenes are basically like intents/forms/etc)
-//	- Attaching logic to the controls to get class needed info from the UI
+//	- Making trigger classes
+//	- Finish scene for triggers
 //	- Generating a parameter file 
 //  - my humps my humps my hump
 //	- ???????????
@@ -39,6 +41,8 @@ public class Main extends Application
 	@Override
 	public void start(Stage primaryStage) throws Exception 
 	{
+		
+		primaryStage.setTitle("Generate the Spire");
 	
 		/////////////////////// CONTROL CREATION //////////////////////////////////
 		
@@ -87,7 +91,27 @@ public class Main extends Application
 		cardRarityInputBox.getItems().add(CardRarity.Uncommon);
 		cardRarityInputBox.getItems().add(CardRarity.Rare);
 		
+		Button nextPageButton = new Button("Next ->");
+		
+		Label onDrawLabel = new Label("Choose what you want your card to do when it's played: ");
+		
+		Label onPlayLabel = new Label("Choose what you want your card to do when it's played: ");
+		
+		Label onBattleStartLabel = new Label("Choose what you want your card to do when the battle starts: "); 
+		
+		Label onExhaustLabel = new Label("Choose what you want your card to do on exhaust: ");
+		
+		Label onDiscardLabel = new Label("Choose what you want your card to do when it's discarded: "); 
+		
+		Label onSpecialDiscardLabel = new Label("Choose what you want your card to do when it's discarded out of the discard phase: ");
+		
+		Label onRetainLabel = new Label("Choose what you want your card to do when it's retained: ");
+		
+		Label onEndOfTurn = new Label("Choose what you want your card to do when your turn has ended: "); 
+		
+		
 		/////////////////////// CONTROL CREATION //////////////////////////////////
+		
 		
 		/////////////////////// BOX CREATION //////////////////////////////////
 		
@@ -109,6 +133,9 @@ public class Main extends Application
 		cardOtherOptionsBox.setAlignment(Pos.CENTER_LEFT);
 		cardOtherOptionsBox.setSpacing(10);
 		
+		HBox nextPageButtonBox = new HBox(nextPageButton);
+		
+		
 		/////////////////////// BOX CREATION //////////////////////////////////
 		
 		/////////////////////// PANE CREATION //////////////////////////////////
@@ -122,14 +149,63 @@ public class Main extends Application
 		mainPane.add(cardTypeBox, 0, 2);
 		mainPane.add(cardEffectBox, 0, 3);
 		mainPane.add(cardOtherOptionsBox, 0, 4);
+		mainPane.add(nextPageButton, 1, 5);
+		
+		GridPane triggerPane = new GridPane();
+		triggerPane.setPadding(new Insets(10,10,10,10));
+		mainPane.setMinSize(600, 750);
 		
 		/////////////////////// PANE CREATION //////////////////////////////////
 		
-		Scene scene = new Scene(mainPane);
-		primaryStage.setScene(scene);
+		Scene creationScene = new Scene(mainPane);
+		Scene triggerScene = new Scene(triggerPane);
+		
+		primaryStage.setScene(creationScene);
 		primaryStage.show();
 		
+		/////////////////////// CONTROL EVENT HANDLING ///////////////////////////
+		
+		nextPageButton.setOnAction(new EventHandler<ActionEvent>() 
+		{
+
+			@Override public void handle(ActionEvent e) 
+			{
+				CardSpecialEffects[] checkedEffects = new CardSpecialEffects[5];		//make a temp array to pull selected check boxes; unchecked boxes will be stored as null
+
+				if(cardUnplayableInputBox.isSelected())
+				{
+					checkedEffects[0] = CardSpecialEffects.Unplayable;  				//0 in array will represent the status of unplayable 
+				}
+
+				if(cardExhaustInputBox.isSelected())
+				{
+					checkedEffects[1] = CardSpecialEffects.Exhaust;						//1 in array will represent the status of exhaust 
+				}
+
+				if(cardEtheralInputBox.isSelected())
+				{
+					checkedEffects[2] = CardSpecialEffects.Etheral;						//2 in array will represent the status of etheral
+				}
+					
+				if(cardInnateInputBox.isSelected())
+				{
+					checkedEffects[3] = CardSpecialEffects.Innate;						//3 in array will represent the status of innate
+				}
+		
+				if(cardRetainInputBox.isSelected())
+				{
+					checkedEffects[4] = CardSpecialEffects.Retain;						//4 in array will represent the status of retain
+				}
+		
+				CardParameters newCard = new CardParameters(cardNameInputField.getText().toString(), cardDescInputField.getText().toString(), Integer.parseInt(cardCostInputField.getText().toString()), cardTypeInputBox.getValue(), checkedEffects, cardColorInputBox.getValue(), cardRarityInputBox.getValue());
+				primaryStage.setScene(triggerScene);
+		
+			}
+		});
+		
 	}
+
+	/////////////////////// CONTROL EVENT HANDLING /////////////////////////
 	
 	public static void main(String[] args) 
 	{
