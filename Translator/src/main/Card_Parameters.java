@@ -1,11 +1,13 @@
 package main;
 
 public class Card_Parameters {
-	public String ID;
-	public String NAME;
-	public String COLOR;
-	public String DESCRIPTION;
-	private static final int COST = 0;
-	
 	public boolean[] isImporting[];
+	public String id;
+	public String target;
+	public String rarity;
+	public String color;
+	public String cardType;
+	public String description;
+	public int cost;
+	public String name;
 }

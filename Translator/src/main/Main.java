@@ -61,15 +61,19 @@ public class Main {
 		}
 	}
 	
-	public void declaration(String id, PrintWriter writer, String description, int cost, String color, String name, String cardType, String rarity, String target) {
-		writer.println("public class " + id + " extends AbstractCard {");
-		writer.println("private static final Cardstring cardStrings = \"" + description + "\";");
-		writer.println("public static final String ID = \"" + id + "\";");
-		writer.println("public " + id + "() {");
-		writer.println("super(\"" + id + "\", " + name + ", \"" + color + "/" + cardType + "/" + name + "\", " + cost + ", " + description + ", AbstractCard.CardType." + cardType + ", AbstractCard.CardColor." + color + ", AbstractCard.CardRarity." + rarity + ", AbstractCard.CardTarget." + target);
+	public void declaration(PrintWriter writer,Card_Parameters card) {
+		writer.println("public class " + card.id + " extends AbstractCard {");
+		writer.println("private static final Cardstring cardStrings = \"" + card.description + "\";");
+		writer.println("public static final String ID = \"" + card.id + "\";");
+		writer.println("public " + card.id + "() {");
+		writer.println("super(\"" + card.id + "\", " + card.name + ", \"" + card.color + "/" + card.cardType + "/" + card.name + "\", " + card.cost + ", " + card.description + ", AbstractCard.CardType." + card.cardType + ", AbstractCard.CardColor." + card.color + ", AbstractCard.CardRarity." + card.rarity + ", AbstractCard.CardTarget." + card.target);
 	}
 	
-	public void populate() {
+	public void createUse() {
+	
+	}
+	
+	public void event() {
 		
 	}
 //	/*    */ import com.megacrit.cardcrawl.actions.AbstractGameAction;
