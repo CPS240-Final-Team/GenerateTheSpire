@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
+import events.Event;
+
 public class Main {
 	
 	public static void main (String[] args) throws FileNotFoundException, UnsupportedEncodingException {
@@ -67,13 +69,31 @@ public class Main {
 		writer.println("public static final String ID = \"" + card.id + "\";");
 		writer.println("public " + card.id + "() {");
 		writer.println("super(\"" + card.id + "\", " + card.name + ", \"" + card.color + "/" + card.cardType + "/" + card.name + "\", " + card.cost + ", " + card.description + ", AbstractCard.CardType." + card.cardType + ", AbstractCard.CardColor." + card.color + ", AbstractCard.CardRarity." + card.rarity + ", AbstractCard.CardTarget." + card.target);
+	
+		
+		if (card.usesDamage) {
+			writer.println("this.baseDamage = " + card.damage + ";");
+		}
+		if (card.usesBlock) {
+			writer.println("this.baseBlock = " + card.block + ";");
+		}
+		if (card.usesMagicNumber) {
+			writer.println("this.baseMagicNumber = " + card.magicNumber + ";");
+			writer.println("this.magicNumber = this.baseMagicNumber;");
+		}
+		writer.println("}");
 	}
 	
-	public void createUse() {
-	
+	public void createUse(PrintWriter writer,Card_Parameters card) {
+		writer.println("public void use(AbstractPlayer p, AbstractMonster m){");
+		for (int i=0; i < card.events.length; i++) {
+			addEvent(writer, card.events[i]);
+		}
+		
+		
 	}
 	
-	public void event() {
+	public void addEvent(PrintWriter writer,Event event) {
 		
 	}
 //	/*    */ import com.megacrit.cardcrawl.actions.AbstractGameAction;
