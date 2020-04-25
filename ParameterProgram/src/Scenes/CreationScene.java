@@ -1,13 +1,15 @@
+package Scenes;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 
+import Classes.CardParameterPartial;
 import Enums.CardColor;
 import Enums.CardRarity;
 import Enums.CardSpecialEffects;
 import Enums.CardType;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,37 +20,31 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 
-//Last Worked on By: Hannah 
-//Date Last Worked On: 4/15/2020
-//Progress Last Made: Finished basic info UI, created another scene to handle input for triggers, made empty trigger classes, made logic for the basic info UI
-//What Needs to be Done:
-//	- Making trigger classes
-//	- Finish scene for triggers
-//	- Generating a parameter file 
-//  - my humps my humps my hump
-//	- ???????????
-//	- profit
+//The scene that lets the user enter basic information about a card (ID, name, cost, etc)
 
-
-public class Main extends Application
+public class CreationScene 
 {
-
-	@Override
-	public void start(Stage primaryStage) throws Exception 
+	SceneController sceneControl = new SceneController();
+	
+	public CreationScene() throws FileNotFoundException
 	{
 		
-		primaryStage.setTitle("Generate the Spire");
-	
 		/////////////////////// CONTROL CREATION //////////////////////////////////
 		
 		FileInputStream imageFIS = new FileInputStream("resources/spireLogo.png");
 		Image logoImage = new Image(imageFIS);
 		ImageView logoView = new ImageView(logoImage);
+		
+		Label idInputLabel = new Label("Enter the file ID of your card (no spaces): ");
+		TextField idInputField = new TextField();
+		idInputField.setPrefWidth(200);
+		idInputField.setMaxWidth(200);
 		
 		Label cardNameInputLabel = new Label("Enter the name of your card: ");
 		TextField cardNameInputField = new TextField();
@@ -65,7 +61,7 @@ public class Main extends Application
 		cardCostInputField.setMaxWidth(40);
 		
 		Label cardTypeInputLabel = new Label("Choose the type of the card: ");
-		ComboBox cardTypeInputBox = new ComboBox();
+		ComboBox<CardType> cardTypeInputBox = new ComboBox<CardType>();
 		cardTypeInputBox.getItems().add(CardType.Attack);
 		cardTypeInputBox.getItems().add(CardType.Curse);
 		cardTypeInputBox.getItems().add(CardType.Power);
@@ -80,138 +76,163 @@ public class Main extends Application
 		CheckBox cardRetainInputBox = new CheckBox("Retain");
 		
 		Label cardColorInputLabel = new Label("Choose your card's color: ");
-		ComboBox cardColorInputBox = new ComboBox();
+		ComboBox<CardColor>cardColorInputBox = new ComboBox<CardColor>();
 		cardColorInputBox.getItems().add(CardColor.Blue);
 		cardColorInputBox.getItems().add(CardColor.Green);
 		cardColorInputBox.getItems().add(CardColor.Red);
 		
 		Label cardRarityInputLabel = new Label("Choose your card's rarity: ");
-		ComboBox cardRarityInputBox = new ComboBox();
+		ComboBox<CardRarity> cardRarityInputBox = new ComboBox<CardRarity>();
 		cardRarityInputBox.getItems().add(CardRarity.Common);
 		cardRarityInputBox.getItems().add(CardRarity.Uncommon);
 		cardRarityInputBox.getItems().add(CardRarity.Rare);
 		
+		Label statusLabel = new Label("");
+		statusLabel.setTextFill(Paint.valueOf(Color.ORANGERED.toString()));
+		
 		Button nextPageButton = new Button("Next ->");
-		
-		Label onDrawLabel = new Label("Choose what you want your card to do when it's played: ");
-		
-		Label onPlayLabel = new Label("Choose what you want your card to do when it's played: ");
-		
-		Label onBattleStartLabel = new Label("Choose what you want your card to do when the battle starts: "); 
-		
-		Label onExhaustLabel = new Label("Choose what you want your card to do on exhaust: ");
-		
-		Label onDiscardLabel = new Label("Choose what you want your card to do when it's discarded: "); 
-		
-		Label onSpecialDiscardLabel = new Label("Choose what you want your card to do when it's discarded out of the discard phase: ");
-		
-		Label onRetainLabel = new Label("Choose what you want your card to do when it's retained: ");
-		
-		Label onEndOfTurn = new Label("Choose what you want your card to do when your turn has ended: "); 
-		
-		
+		nextPageButton.setTextFill(Paint.valueOf("#ffffff"));
+		nextPageButton.setStyle("-fx-base: rgb(30,170,255);");
+
+
+
 		/////////////////////// CONTROL CREATION //////////////////////////////////
-		
-		
+
+
 		/////////////////////// BOX CREATION //////////////////////////////////
-		
+
 		HBox logoBox = new HBox(logoView);
+		logoBox.setAlignment(Pos.CENTER);
 		
-		VBox cardInfoInputBox = new VBox(cardNameInputLabel, cardNameInputField, cardDescInputLabel, cardDescInputField, cardCostInputLabel, cardCostInputField);
-		cardInfoInputBox.setAlignment(Pos.CENTER_LEFT);
+		VBox cardInfoInputBox = new VBox(idInputLabel, idInputField, cardNameInputLabel, cardNameInputField, cardDescInputLabel, cardDescInputField, cardCostInputLabel, cardCostInputField);
+		cardInfoInputBox.setAlignment(Pos.CENTER);
 		cardInfoInputBox.setSpacing(10);
 		
 		VBox cardTypeBox = new VBox(cardTypeInputLabel, cardTypeInputBox, cardEffectInputLabel);
-		cardTypeBox.setAlignment(Pos.CENTER_LEFT);
+		cardTypeBox.setAlignment(Pos.CENTER);
 		cardInfoInputBox.setSpacing(10);
 		
 		VBox cardEffectBox = new VBox(cardEffectInputLabel, cardUnplayableInputBox, cardExhaustInputBox, cardEtheralInputBox, cardInnateInputBox, cardRetainInputBox);
-		cardEffectBox.setAlignment(Pos.CENTER_LEFT);
-		cardEffectBox.setSpacing(5);
+		cardEffectBox.setAlignment(Pos.CENTER);
+		cardEffectBox.setSpacing(10);
 		
 		VBox cardOtherOptionsBox = new VBox(cardColorInputLabel, cardColorInputBox, cardRarityInputLabel, cardRarityInputBox);
-		cardOtherOptionsBox.setAlignment(Pos.CENTER_LEFT);
+		cardOtherOptionsBox.setAlignment(Pos.CENTER);
 		cardOtherOptionsBox.setSpacing(10);
 		
+		HBox statusLabelBox = new HBox(statusLabel);
+		statusLabelBox.setAlignment(Pos.CENTER);
+		statusLabelBox.setSpacing(20);
+		
+		VBox generalInfoBox = new VBox(cardInfoInputBox, cardTypeBox, cardEffectBox, cardOtherOptionsBox, statusLabelBox);
+		generalInfoBox.setAlignment(Pos.CENTER);
+		generalInfoBox.setSpacing(10);
+		
 		HBox nextPageButtonBox = new HBox(nextPageButton);
-		
-		
+
+
 		/////////////////////// BOX CREATION //////////////////////////////////
-		
+
 		/////////////////////// PANE CREATION //////////////////////////////////
-		
-		GridPane mainPane = new GridPane();
-		mainPane.setPadding(new Insets(10,10,10,10));
-		mainPane.setMinSize(600, 750);
-		mainPane.setVgap(10);
-		mainPane.add(logoBox, 0, 0);
-		mainPane.add(cardInfoInputBox, 0, 1);
-		mainPane.add(cardTypeBox, 0, 2);
-		mainPane.add(cardEffectBox, 0, 3);
-		mainPane.add(cardOtherOptionsBox, 0, 4);
-		mainPane.add(nextPageButton, 1, 5);
-		
-		GridPane triggerPane = new GridPane();
-		triggerPane.setPadding(new Insets(10,10,10,10));
-		mainPane.setMinSize(600, 750);
-		
+
+		BorderPane mainPagePane = new BorderPane();
+		mainPagePane.setPadding(new Insets(10,10,10,10));
+		mainPagePane.setTop(logoBox);
+		mainPagePane.setCenter(generalInfoBox);
+		mainPagePane.setMinSize(500, 700);
+		mainPagePane.setBottom(nextPageButtonBox);
+		mainPagePane.setStyle("-fx-background-color: #D3D3D3; ");
+
+
 		/////////////////////// PANE CREATION //////////////////////////////////
+
+
+
+		Scene creationScene = new Scene(mainPagePane);
+	
 		
-		Scene creationScene = new Scene(mainPane);
-		Scene triggerScene = new Scene(triggerPane);
-		
-		primaryStage.setScene(creationScene);
-		primaryStage.show();
-		
+		sceneControl.getMainStage().setScene(creationScene);
+		sceneControl.getMainStage().show();
+
+
 		/////////////////////// CONTROL EVENT HANDLING ///////////////////////////
-		
+
 		nextPageButton.setOnAction(new EventHandler<ActionEvent>() 
 		{
-
 			@Override public void handle(ActionEvent e) 
 			{
+				Boolean allChecksPassed = true;											//a boolean to make sure that all text fields contain valid content
+				
+				if(idInputField.getText().contains(" "))
+				{
+					statusLabel.setText("The ID must have no spaces.");
+					allChecksPassed = false;
+				}
+				
+				try																		//makes sure that the card cost is only integers
+				{
+					Integer.parseInt(cardCostInputField.getText());
+				}
+				catch (Exception exceptionArg)
+				{
+					statusLabel.setText("The card cost must be an integer value.");
+					allChecksPassed = false;
+				}
+				
+								
 				CardSpecialEffects[] checkedEffects = new CardSpecialEffects[5];		//make a temp array to pull selected check boxes; unchecked boxes will be stored as null
-
+	
 				if(cardUnplayableInputBox.isSelected())
 				{
 					checkedEffects[0] = CardSpecialEffects.Unplayable;  				//0 in array will represent the status of unplayable 
 				}
-
+	
 				if(cardExhaustInputBox.isSelected())
 				{
 					checkedEffects[1] = CardSpecialEffects.Exhaust;						//1 in array will represent the status of exhaust 
 				}
-
+	
 				if(cardEtheralInputBox.isSelected())
 				{
 					checkedEffects[2] = CardSpecialEffects.Etheral;						//2 in array will represent the status of etheral
 				}
-					
+			
 				if(cardInnateInputBox.isSelected())
 				{
 					checkedEffects[3] = CardSpecialEffects.Innate;						//3 in array will represent the status of innate
 				}
-		
+	
 				if(cardRetainInputBox.isSelected())
 				{
 					checkedEffects[4] = CardSpecialEffects.Retain;						//4 in array will represent the status of retain
 				}
-		
-				CardParameters newCard = new CardParameters(cardNameInputField.getText().toString(), cardDescInputField.getText().toString(), Integer.parseInt(cardCostInputField.getText().toString()), cardTypeInputBox.getValue(), checkedEffects, cardColorInputBox.getValue(), cardRarityInputBox.getValue());
-				primaryStage.setScene(triggerScene);
-		
+	
+				if(allChecksPassed)
+				{
+				  statusLabel.setText("");
+				  
+				  //make a class that stores information from this scene to be passed to the next one
+				  CardParameterPartial partialClass = new CardParameterPartial(idInputField.getText(), cardNameInputField.getText(), cardDescInputField.getText(), Integer.parseInt(cardCostInputField.getText()), cardTypeInputBox.getValue(), checkedEffects, cardColorInputBox.getValue(), cardRarityInputBox.getValue());
+				  
+				  sceneControl.getMainStage().close();									//close this current scene 
+				  
+				  try 																	//create a new event scene
+				  {
+					EventScene eventScene = new EventScene(partialClass);
+				  } 
+				  catch (FileNotFoundException e1)
+				  {
+				
+					e1.printStackTrace();
+				  }
+				}
 			}
 		});
-		
-	}
 
-	/////////////////////// CONTROL EVENT HANDLING /////////////////////////
+	}
 	
-	public static void main(String[] args) 
-	{
+	
 
-		launch(args);
-
-	}
-
+/////////////////////// CONTROL EVENT HANDLING /////////////////////////
+	
 }
