@@ -10,8 +10,6 @@ public class ApplyStatusEvent extends Event{
 	//How many of the status effect is applied.
 	int stacks;
 	
-	//p means player, m means monster, a means all enemies.
-	char target;
 	
 	public ApplyStatusEvent(String statusEffect, String repetitions) {
 		super(repetitions);
@@ -22,12 +20,8 @@ public class ApplyStatusEvent extends Event{
 		if (this.doesRepeat) {
 			this.generateRepetition(writer);
 		}
-
-		if (target!= 'a') {
-			
-		} else {
-			
-		}
+		
+		
 		
 		
 		if (this.doesRepeat) {

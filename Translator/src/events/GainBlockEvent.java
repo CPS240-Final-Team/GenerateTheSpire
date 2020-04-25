@@ -5,20 +5,19 @@ import java.io.PrintWriter;
 
 public class GainBlockEvent extends Event{
 
-	String blockEffect;
-	
-	public GainBlockEvent(String blockEffect, String repetitions) {
-		super(repetitions);
-		this.blockEffect = blockEffect;
+	public GainBlockEvent() {
+		super("1");
 	}
-	
+	public GainBlockEvent(String repetitions) {
+		super(repetitions);
+	}
 	
 	public void generateEvent(PrintWriter writer) {
 		if (this.doesRepeat) {
 			this.generateRepetition(writer);
 		}
 		
-		
+		writer.println("addToBot((AbstractGameAction)new GainBlockAction((AbstractCreature)p, (AbstractCreature)p, this.block));");
 		
 		if (this.doesRepeat) {
 			System.out.println("}");

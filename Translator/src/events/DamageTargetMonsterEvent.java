@@ -8,10 +8,19 @@ public class DamageTargetMonsterEvent extends Event{
 	//BLUNT_LIGHT, BLUNT_HEAVY, SLASH_DIAGONAL, SMASH, SLASH_HEAVY, SLASH_HORIZONTAL, SLASH_VERTICAL, NONE, FIRE, POISON, SHIELD, LIGHTNING
 	String attackEffect;
 	
+	char target;
+	
+	
+	public DamageTargetMonsterEvent(String attackEffect, char target) {
+		super("1");
+		this.attackEffect = attackEffect;
+		this.target = target;
+	}
 	
 	public DamageTargetMonsterEvent(String attackEffect, String repetitions, char target) {
 		super(repetitions);
 		this.attackEffect = attackEffect;
+		this.target = target;
 	}
 	
 	public void generateEvent(PrintWriter writer) {
