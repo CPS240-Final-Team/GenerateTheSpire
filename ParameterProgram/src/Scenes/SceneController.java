@@ -2,7 +2,7 @@ package Scenes;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-//Author: Hannah Seccia, [insert other person here]
+//Author: Hannah Seccia, Ahmed Hamdan, Derrick Vo
 //Date Last Worked On: 4-25-2020
 //Description: The GUI program that enables the user to construct their card parameters into a class
 
