@@ -28,8 +28,14 @@ public class DamageTargetMonsterEvent extends Event{
 			this.generateRepetition(writer);
 		}
 		
+		if (target == 'r'){
+			writer.println("addToBot((AbstractGameAction)new AttackDamageRandomEnemyAction(this, AbstractGameAction.AttackEffect." + attackEffect +"));");
+		}
+		else if (target == 'a'){
+			writer.println("addToBot((AbstractGameAction)new DamageAllEnemiesAction((AbstractCreature)p, this.multiDamage, this.damageTypeForTurn, AbstractGameAction.AttackEffect." + attackEffect+"));");
+		} else{
 		writer.println("addToBot((AbstractGameAction)new DamageAction((AbstractCreature)m, new DamageInfo((AbstractCreature)p,this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect." + this.attackEffect + "));)");
-		
+		}
 		
 		
 		if (this.doesRepeat) {
