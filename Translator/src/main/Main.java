@@ -29,7 +29,7 @@ public class Main {
 
 		eventGroupsIronWave[0] = useCasesIronWave;
 
-		Card_Parameters card = new Card_Parameters(null, "iron_wave", "ENEMY", "COMMON", "RED", "ATTACK", "Gain %b block", "Iron Wave", true, true, false, 1, 5, 5, 0, eventGroupsIronWave);
+		Card_Parameters card = new Card_Parameters(null, "iron_wave", "ENEMY", "COMMON", "RED", "ATTACK", "Gain %b block, deal %d damage", "Iron Wave", true, true, false, 1, 5, 5, 0, eventGroupsIronWave);
 
 		PrintWriter writer = new PrintWriter("emptyClass.java", "UTF-8");
 
