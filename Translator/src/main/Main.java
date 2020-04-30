@@ -6,10 +6,13 @@ import java.io.UnsupportedEncodingException;
 
 import card.Card_Parameters;
 import eventGroups.EventGroup;
+import eventGroups.EventGroupUpgrade;
 import eventGroups.EventGroupUse;
 import events.DamageTargetMonsterEvent;
 import events.Event;
 import events.GainBlockEvent;
+import events.UpgradeBlock;
+import events.UpgradeDamage;
 
 public class Main {
 
@@ -19,17 +22,25 @@ public class Main {
 		//				String cardType, String description, String name, boolean usesBlock, boolean usesMagicNumber,
 		//				boolean usesDamage, int cost, int magicNumber, int block, int damage, Event[] events) 
 
+		
 		Event[] ironWaveEvents = new Event[2];
 		ironWaveEvents[0] = new GainBlockEvent();
 		ironWaveEvents[1] = new DamageTargetMonsterEvent("SLASH_VERTICAL", 'm');
 
+		Event[] ironWaveUpgradeEvents = new Event[2];
+		ironWaveUpgradeEvents[0] = new UpgradeBlock("2");
+		ironWaveUpgradeEvents[1] = new UpgradeDamage("2");
+
 		EventGroupUse useCasesIronWave = new EventGroupUse(ironWaveEvents);
+		
+		EventGroupUpgrade upgradeIronWave = new EventGroupUpgrade(ironWaveUpgradeEvents);
 				
-		EventGroup[] eventGroupsIronWave = new EventGroup[1];
-
+		EventGroup[] eventGroupsIronWave = new EventGroup[2];
+		
 		eventGroupsIronWave[0] = useCasesIronWave;
+		eventGroupsIronWave[1] = upgradeIronWave;
 
-		Card_Parameters card = new Card_Parameters(null, "iron_wave", "ENEMY", "COMMON", "RED", "ATTACK", "Gain %b block", "Iron Wave", true, true, false, 1, 5, 5, 0, eventGroupsIronWave);
+		Card_Parameters card = new Card_Parameters(null, "iron_wave", "ENEMY", "COMMON", "RED", "ATTACK", "Gain %b block, deal %d damage", "Iron Wave", true, true, false, 1, 5, 5, 0, eventGroupsIronWave);
 
 		PrintWriter writer = new PrintWriter("emptyClass.java", "UTF-8");
 
