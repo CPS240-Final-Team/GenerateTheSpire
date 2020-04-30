@@ -3,10 +3,12 @@ package Scenes;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import Classes.CardParameterPartial;
 import Classes.CardParameters;
 import eventGroups.EventGroup;
+import events.ApplyStatusEvent;
 import events.DamageTargetMonsterEvent;
 import events.GainBlockEvent;
 import javafx.event.ActionEvent;
@@ -323,7 +325,22 @@ public class EventScene {
 				}
 
 				
-	)
+				ArrayList<EventGroup> eventGroupsList = new ArrayList<EventGroup>();
+
+                if(gainBlockInputBox.isSelected())
+                {
+                    eventGroupsList.addAll((Collection<? extends EventGroup>) new GainBlockEvent());
+                }
+                if(damageTargetMonsterInputBox.isSelected())
+                {
+                    eventGroupsList.addAll((Collection<? extends EventGroup>) new DamageTargetMonsterEvent(null, (char) 0));
+                }
+                if(applyStatusInputBox.isSelected())
+                {
+                    eventGroupsList.addAll((Collection<? extends EventGroup>) new ApplyStatusEvent(Integer.parseInt(applyStatusOptionsInputBox.getText()), Integer.parseInt(applyStatusStacksInputField.getText())));
+                }
+
+                EventGroup[] eventGroups = (EventGroup[]) eventGroupsList.toArray();
 				
 				if (numberFormatsCorrect) {
 					statusLabel.setText("");
@@ -334,7 +351,7 @@ public class EventScene {
 							usesMagicNumberInputBox.isSelected(), usesDamageInputBox.isSelected(),
 							Integer.parseInt(blockNumberInputField.getText()),
 							Integer.parseInt(magicNumberInputField.getText()),
-							Integer.parseInt(damageInputField.getText()));
+							Integer.parseInt(damageInputField.getText()), eventGroups);
 				}
 			}
 
