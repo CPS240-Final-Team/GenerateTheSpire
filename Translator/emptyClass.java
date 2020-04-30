@@ -11,6 +11,12 @@ public void use(AbstractPlayer p, AbstractMonster m){
 addToBot((AbstractGameAction)new GainBlockAction((AbstractCreature)p, (AbstractCreature)p, this.block));
 addToBot((AbstractGameAction)new DamageAction((AbstractCreature)m, new DamageInfo((AbstractCreature)p,this.damage, this.damageTypeForTurn), AbstractGameAction.AttackEffect.SLASH_VERTICAL));)
 }
+public void upgrade() {
+if (!this.upgraded) {
+upgradeBlock(2);
+upgradeDamage(2);
+}
+}
 public AbstractCard makeCopy() {
 return new iron_wave();
 }

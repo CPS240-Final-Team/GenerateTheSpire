@@ -20,7 +20,7 @@ public class UpgradeDamage extends Event{
 			this.generateRepetition(writer);
 		}
 		
-		writer.println("upgradeBlock(" + upgradeAmount +");");
+		writer.println("upgradeDamage(" + upgradeAmount +");");
 		
 		if (this.doesRepeat) {
 			System.out.println("}");
