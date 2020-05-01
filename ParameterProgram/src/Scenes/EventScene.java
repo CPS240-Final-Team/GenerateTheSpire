@@ -337,7 +337,7 @@ public class EventScene {
                 }
                 if(applyStatusInputBox.isSelected())
                 {
-                    eventGroupsList.addAll((Collection<? extends EventGroup>) new ApplyStatusEvent(Integer.parseInt(applyStatusOptionsInputBox.getText()), Integer.parseInt(applyStatusStacksInputField.getText())));
+                    eventGroupsList.addAll((Collection<? extends EventGroup>) new ApplyStatusEvent(applyStatusOptionsInputBox.getValue(), applyStatusStacksInputField.getText()));
                 }
 
                 EventGroup[] eventGroups = (EventGroup[]) eventGroupsList.toArray();
